@@ -1,14 +1,14 @@
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\scr\TP-Filter');
+addpath('E:\pitt course\PhD\Code\TPH-FUSION\src\TP-Filter');
 addpath('E:\pitt course\PhD\Code\TPH-FUSION\data');
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\scr\plot');
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\scr\HFusion');
+addpath('E:\pitt course\PhD\Code\TPH-FUSION\src\plot');
+addpath('E:\pitt course\PhD\Code\TPH-FUSION\src\HFusion');
 
 clc;clear;
 
 % Load data. 
 % smallpox is the California Smallpox Data.
 % measel is the New York measle data.
-load toy
+load measle
 % load smallpox
 events = toycount;
 
@@ -37,6 +37,12 @@ ydim = length(config_rep_over);
 
 % First Phase: reconstruct sequence by H-Fusion.
 Out = hfusion(events, lambdas, alpha, config_rep_dur, config_rep_over);
+
+% Explore the parameter selection(Annihilating length, Fourier cut-off)
+% based on reconstruct sequence.
+Ltest = 2:2:60;  % Annihilating length.
+Ttest = 2:2:60;  % Fourier Cut-off.
+parameter_plot(Out, Ltest, Ttest, config_rep_dur, config_rep_over)
 
 % Annilhilating Filter Method 
 Out_A = annihilating(Out, L, events);
