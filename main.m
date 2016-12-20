@@ -1,7 +1,7 @@
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\scr\TP-Filter');
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\data');
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\scr\plot');
-addpath('E:\pitt course\PhD\Code\TPH-FUSION\scr\HFusion');
+addpath('scr\TP-Filter');
+addpath('data');
+addpath('scr\plot');
+addpath('scr\HFusion');
 
 clc;clear;
 
