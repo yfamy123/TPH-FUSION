@@ -8,8 +8,8 @@ clc;clear;
 % Load data. 
 % smallpox is the California Smallpox Data.
 % measel is the New York measle data.
-load smallpox
-% load toy
+load toy
+% load smallpox
 events = toycount;
 
 
@@ -46,8 +46,6 @@ Out_F = fourier(Out, threshold, events);
 % Iterative Method
 [Inc_A,Out_A1,Out_A10] = iteration(Out, L, events, 'annihilating', iterationTime, gama);
 [Inc_F,Out_F1,Out_F10] = iteration(Out, threshold, events, 'fourier', iterationTime, gama);
-
-save(strcat('test_',date,'.mat'));
 
 % Plot special cases and the trend of iteration
 special_cases_plot(events, Out, Out_A1, Out_F1, Inc_A, Inc_F, 611, 'RD = 41,Shift = 21', 327, ...
