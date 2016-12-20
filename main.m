@@ -1,14 +1,14 @@
-addpath('scr\TP-Filter');
+addpath('src\TP-Filter');
 addpath('data');
-addpath('scr\plot');
-addpath('scr\HFusion');
+addpath('src\plot');
+addpath('src\HFusion');
 
 clc;clear;
 
 % Load data. 
 % smallpox is the California Smallpox Data.
 % measel is the New York measle data.
-load toy
+load measel
 % load smallpox
 events = toycount;
 
