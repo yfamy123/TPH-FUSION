@@ -7,8 +7,8 @@ clc;clear;
 
 % Load data. 
 % smallpox is the California Smallpox Data.
-% measel is the New York measle data.
-load measel
+% measle is the New York measle data.
+load measle
 % load smallpox
 events = toycount;
 
@@ -37,6 +37,12 @@ ydim = length(config_rep_over);
 
 % First Phase: reconstruct sequence by H-Fusion.
 Out = hfusion(events, lambdas, alpha, config_rep_dur, config_rep_over);
+
+% Explore the parameter selection(Annihilating length, Fourier cut-off)
+% based on reconstruct sequence.
+Ltest = 2:2:60;  % Annihilating length.
+Ttest = 2:2:60;  % Fourier Cut-off.
+parameter_plot(Out, Ltest, Ttest, config_rep_dur, config_rep_over)
 
 % Annilhilating Filter Method 
 Out_A = annihilating(Out, L, events);
