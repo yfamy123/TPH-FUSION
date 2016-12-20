@@ -1,0 +1,49 @@
+function [mse] = A_length(x,L,RD_shift,pattern)
+    x = x.';
+    N=length(x);
+    Xmat=zeros(N-L+1,L);
+    for s=1:N-L+1,
+        Xmat(s,:)=x(s:s+L-1);
+    end
+    % can instead estimate Xmat from a similar time series (not x itself)
+
+   
+		Ymat=Xmat.'*Xmat; % small LxL matrix
+		[U,Sigma,V]=svd(Ymat); % only need eigenvec corr to smallest eigenvalue, but since only LxL matrix, use full SVD here
+		h=U(:,end);
+		c1=[h(1); zeros(N-L,1)];
+		r1=zeros(1,N);
+		r1(1:L)=h.';
+		H=toeplitz(c1,r1);
+    end
+    if strcmp(overlap,'partially')
+        A=A(1:floor(RD/2):end,:); % partially-overlapping reports
+		Xmat = Xmat(1:floor(RD/2):end,:);
+		Ymat=Xmat.'*Xmat; % small LxL matrix
+		[U,Sigma,V]=svd(Ymat); % only need eigenvec corr to smallest eigenvalue, but since only LxL matrix, use full SVD here
+		h=U(:,end);
+		c1=[h(1); zeros(N-L,1)];
+		r1=zeros(1,N);
+		r1(1:L)=h.';
+		H=toeplitz(c1,r1);
+    end
+    if strcmp(overlap,'non-overlapping')
+        A=A(1:RD:end,:); % non-overlapping reports
+		Xmat = Xmat(1:RD:end,:);
+		Ymat=Xmat.'*Xmat; % small LxL matrix
+		[U,Sigma,V]=svd(Ymat); % only need eigenvec corr to smallest eigenvalue, but since only LxL matrix, use full SVD here
+		h=U(:,end);
+		c1=[h(1); zeros(N-L,1)];
+		r1=zeros(1,N);
+		r1(1:L)=h.';
+		H=toeplitz(c1,r1);
+    end
+
+    % Take measurement reports
+
+    y=A*x.';
+
+    xhat = (pinv([A; H])*[y; zeros(N-L+1,1)]).';
+    mse = mean((xhat - x).^2);
+    
+end

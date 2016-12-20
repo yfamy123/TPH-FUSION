@@ -1,0 +1,47 @@
+function parameter_plot(Out, Ltest, Ttest, config_rep_dur, config_rep_over)
+
+    Ldim = length(Ltest);
+    Tdim = length(Ttest);
+    RDdim = length(config_rep_dur);
+    Sdim = length(config_rep_over);
+    error_L_RD = zeros(Ldim,RDdim);
+    error_T_RD = zeros(Tdim,RDdim);
+    error_L_Shift = zeros(Ldim,Sdim);
+    error_T_Shift = zeros(Tdim,Sdim);
+
+    for i = 1:Ldim
+        for j = 1:RDdim
+            fprintf('looping %d %d\n',i,j);
+            error_L_RD(i,j) = A_length(Out(8+(j-1)*30).x_reconstr, Out(8+(j-1)*30).A, Ltest(i));
+        end
+    end
+    
+    x_L_RD = repmat(Ltest',1,RDdim);
+    y_L_RD = repmat(config_rep_dur,Ldim,1);
+
+    figure;
+    pcolor(y_L_RD,x_L_RD,log10(error_L_RD))
+    colorbar;
+    ylabel('TPH-FUSION(A) length')
+    xlabel('RD')
+    title('TPH-FUSION(A) length based on H-FUSION reconstructed sequence')
+    
+    for i = 1:Ldim
+        for j = 1:Sdim
+            fprintf('looping %d %d\n',i,j);
+            error_L_Shift(i,j) = A_length(Out(j).x_reconstr,Out(j).A, Ltest(i));
+        end
+    end
+    
+    x_L_S = repmat(Ltest',1,Sdim);
+    y_L_shift = repmat(config_rep_over,Ldim,1);
+
+    figure;
+    pcolor(y_L_shift,x_L_S,log10(error_L_Shift))
+    colorbar;
+    ylabel('TPH-FUSION(A) length')
+    xlabel('Shift')
+    title('TPH-FUSION(A) length based on H-FUSION reconstructed sequence')
+
+    
+end
